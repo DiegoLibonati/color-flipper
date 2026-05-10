@@ -6,15 +6,6 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started
-
-1. Clone the repository
-2. Navigate to the project folder
-3. Execute: `npm install`
-4. Execute: `npm run dev`
-
-The application will open automatically at `http://localhost:3000`
-
 ## Description
 
 **Color Flipper** is a minimalist web application that generates random hex colors on demand. Every time you click the **Flip** button, the app picks a new color by randomly combining characters from the hexadecimal alphabet (`0–9`, `A–F`) to form a 6-character hex code. The generated color is instantly applied as the full-page background, giving you an immediate and immersive visual preview. At the same time, the hex value (e.g. `#A3F5C1`) is displayed on screen and its own text color is updated to match, creating a self-referential color label that stays legible against any background.
@@ -60,11 +51,20 @@ No production dependencies - Pure Vanilla TypeScript
 "vite": "^7.1.6"
 ```
 
-## Portfolio Link
+## Getting Started
 
-[`https://www.diegolibonati.com.ar/#/project/color-flipper`](https://www.diegolibonati.com.ar/#/project/color-flipper)
+With the stack and dependencies in mind, you can spin up the app locally in a few steps:
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Execute: `npm install`
+4. Execute: `npm run dev`
+
+The application will open automatically at `http://localhost:3000`.
 
 ## Testing
+
+Once the app is running, you can verify its behavior with the test suite:
 
 1. Navigate to the project folder
 2. Execute: `npm test`
@@ -75,7 +75,9 @@ For coverage report:
 npm run test:coverage
 ```
 
-## Security
+## Security Audit
+
+Beyond functional testing, it is also worth auditing the dependency tree for known vulnerabilities.
 
 ### npm audit
 
@@ -88,3 +90,7 @@ npm audit
 ## Known Issues
 
 None at the moment.
+
+## Portfolio Link
+
+[`https://www.diegolibonati.com.ar/#/project/color-flipper`](https://www.diegolibonati.com.ar/#/project/color-flipper)
