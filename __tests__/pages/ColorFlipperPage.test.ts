@@ -89,6 +89,34 @@ describe("ColorFlipperPage", () => {
     });
   });
 
+  describe("edge cases", () => {
+    it("should not throw when the hex span is missing from the DOM on click", async () => {
+      const user = userEvent.setup();
+      const page = renderPage();
+
+      page.querySelector<HTMLSpanElement>(".card__hex")?.remove();
+
+      await expect(
+        user.click(
+          screen.getByRole("button", { name: /flip background color/i })
+        )
+      ).resolves.not.toThrow();
+    });
+
+    it("should not update the background color when the hex span is missing", async () => {
+      const user = userEvent.setup();
+      const page = renderPage();
+
+      page.querySelector<HTMLSpanElement>(".card__hex")?.remove();
+
+      await user.click(
+        screen.getByRole("button", { name: /flip background color/i })
+      );
+
+      expect(page.style.backgroundColor).toBe("");
+    });
+  });
+
   describe("cleanup", () => {
     it("should have a cleanup method", () => {
       const page = renderPage();

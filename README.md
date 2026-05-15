@@ -57,8 +57,9 @@ With the stack and dependencies in mind, you can spin up the app locally in a fe
 
 1. Clone the repository
 2. Navigate to the project folder
-3. Execute: `npm install`
-4. Execute: `npm run dev`
+3. Ensure you are on **Node 22** (an `.nvmrc` is provided — run `nvm use` if you use nvm)
+4. Execute: `npm install`
+5. Execute: `npm run dev`
 
 The application will open automatically at `http://localhost:3000`.
 
@@ -74,6 +75,10 @@ For coverage report:
 ```bash
 npm run test:coverage
 ```
+
+## CI
+
+Every push and pull request to `main` runs the GitHub Actions pipeline defined in `.github/workflows/ci.yml`. It executes three sequential jobs: **lint & type-check**, **tests**, and **build**. A PR cannot be merged if any job fails.
 
 ## Security Audit
 
