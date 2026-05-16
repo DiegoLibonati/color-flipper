@@ -76,9 +76,51 @@ For coverage report:
 npm run test:coverage
 ```
 
-## CI
+## Continuous Integration
 
-Every push and pull request to `main` runs the GitHub Actions pipeline defined in `.github/workflows/ci.yml`. It executes three sequential jobs: **lint & type-check**, **tests**, and **build**. A PR cannot be merged if any job fails.
+The repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch.
+
+### Pipeline overview
+
+```
+                      ┌─── PR or push to main ───┐
+                      ▼                          ▼
+┌──────────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│   lint-and-audit     │─▶│     testing      │─▶│      build       │
+│  eslint · tsc check  │  │  jest (jsdom)    │  │  vite build      │
+└──────────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+### Validation jobs (run on every PR and push)
+
+1. **`lint-and-audit`** — installs dependencies with `npm ci`, then runs `npm run lint` (ESLint) and `npm run type-check` (`tsc --noEmit`).
+2. **`testing`** — runs `npm run test` (Jest with the `jsdom` environment and Testing Library). Depends on `lint-and-audit`.
+3. **`build`** — runs `npm run build` (type-check + `vite build`) to confirm that a production bundle can be produced. Depends on `testing`.
+
+All three jobs run on `ubuntu-latest`, pin Node to the version declared in [`.nvmrc`](.nvmrc), and cache the npm registry via `actions/setup-node@v4`. A PR cannot be merged if any job fails.
+
+### Where the build outputs live
+
+| Output                                           | Location                                                |
+| ------------------------------------------------ | ------------------------------------------------------- |
+| Validation logs (lint, type-check, tests, build) | **Actions** tab on GitHub                               |
+| Production bundle (`dist/`)                      | Ephemeral, inside the runner (no artifact is published) |
+
+> **Note:** this pipeline is validation-only. There are no release jobs, no tagging, no automated changelog, and no published artifacts — `npm run build` is executed purely as a smoke test to guarantee that `main` always produces a deployable bundle.
+
+### Running the same checks locally
+
+```bash
+# lint-and-audit
+npm run lint
+npm run type-check
+
+# testing
+npm run test
+
+# build
+npm run build
+```
 
 ## Security Audit
 
